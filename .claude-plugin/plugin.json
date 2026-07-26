@@ -1,7 +1,7 @@
 {
   "name": "claude-upgrade-advisor",
   "description": "Notices when Claude Code or the Claude model lineup changes, reads the official docs, and reports what is new plus an audit of your project's harness and settings. Read-only: it proposes changes, it never applies them.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "OzawaG"
   },

@@ -1,11 +1,18 @@
 # Harness audit checklist
 
 Work through every section. Report what you checked and found clean, not only
-what you found broken — otherwise the user cannot distinguish a thorough audit
+what you found broken, otherwise the user cannot distinguish a thorough audit
 from a shallow one.
 
-Ground each finding in the reference pages fetched during Phase 2. Do not
-declare a key deprecated because it *looks* old.
+Every finding needs two separate things: **evidence** from the user's own files,
+and a **source** from an official Anthropic page proving the thing is wrong, with
+the version or date it applies to. A finding with only evidence is an
+observation. A finding with only a source is trivia.
+
+Ground each finding in the reference pages fetched during Phase 2. Never declare
+a key deprecated because it *looks* old, and never declare one valid because you
+remember it. If you did not fetch the page that settles it, say the check was
+inconclusive and name the page you would need.
 
 ---
 

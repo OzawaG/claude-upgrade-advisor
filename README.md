@@ -51,6 +51,18 @@ leave installed.
 - **It does not store credentials.** It reads config files to audit them and
   masks anything credential-shaped before it reaches the conversation.
 
+## How this differs from `/doctor`
+
+Claude Code has a built-in setup checkup (`/doctor`, alias `/checkup`). Use that
+for a broken install, failed auth, a missing binary, or an MCP server that will
+not start.
+
+This plugin answers a different question: whether your configuration has gone
+**stale relative to a release**. A model id that got retired, a settings key that
+no longer exists, a `CLAUDE.md` describing behaviour that changed two versions
+ago. A healthy install can still be full of stale config, and `/doctor` will
+pass it.
+
 ## Requirements
 
 - Claude Code (`/plugin` available — any reasonably recent version)
@@ -199,6 +211,61 @@ Masking is deliberately over-eager: a harmless field named `apiKeyHelper` gets
 redacted too. Losing a little audit detail is the right trade against leaking a
 live token. Nothing in this repository contains a credential, and all paths
 resolve through environment variables.
+
+## Where the information comes from
+
+The point of this plugin is that its answers come from Anthropic's documentation
+rather than from a model's recollection. Three rules enforce that.
+
+**Official only.** Only Anthropic-published sources count: `code.claude.com`,
+`platform.claude.com`, `support.claude.com`, `www.anthropic.com`,
+`github.com/anthropics`, `api.anthropic.com`. No third-party blog, forum,
+newsletter, or video, however good.
+
+**Primary only.** It cites the artifact that *is* the thing, not one describing
+it. The changelog owns "which version changed this". The reference page owns
+"what this setting does". The `/v1/models` endpoint outranks any page that lists
+models.
+
+**Evidence required.** Every claim carries a source URL and the version or date
+it applies to. A claim that cannot have both is reported as unverified, naming
+the source that failed, rather than being filled in from memory.
+
+### Sources it reads
+
+| Source | Used for |
+|---|---|
+| [`CHANGELOG.md`](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) | Which version changed what |
+| [Weekly digest](https://code.claude.com/docs/en/whats-new) | Why the changes matter. Each week is tagged with a version range, so only the weeks covering your gap get fetched |
+| [Models overview](https://platform.claude.com/docs/en/about-claude/models/overview) and [deprecations](https://platform.claude.com/docs/en/about-claude/model-deprecations) | Model ids, specs, retirement dates |
+| Per-model what's-new pages | Behaviour and breaking changes |
+| [Platform release notes](https://platform.claude.com/docs/en/release-notes/overview) | API and SDK changes |
+| Claude Code reference pages | Whether your settings, hooks, and permissions are still valid |
+| `GET /v1/models` | Optional. See below |
+| [`llms.txt`](https://code.claude.com/docs/llms.txt) indexes | Finding the current path when a URL moves |
+
+### On the API endpoint
+
+`GET /v1/models` is the most authoritative model list there is, because it is the
+API answering for itself. It needs an API key, so it is **off by default**.
+
+It runs only when `ANTHROPIC_API_KEY` is already set in your environment. The
+plugin never asks you for a key, never prints one, and never writes one to a
+report. If the variable is unset, the endpoint is skipped and the report says the
+model list came from the docs instead. Subscription users normally have no key,
+and its absence is not treated as a problem.
+
+### Not used, and why
+
+X is worth naming because it looks like it should work. Anthropic's
+[@AnthropicAI](https://x.com/AnthropicAI) is official and primary, but `x.com`
+returns HTTP 402 to unauthenticated requests, so nothing can read it
+programmatically. Its posts are announcement-level with no version numbers, and
+every fact in them reaches the documentation with evidence attached. Read it
+yourself to learn *that* something shipped; this plugin tells you *what*.
+
+Also excluded: YouTube, LinkedIn, Discord, third-party blogs, Reddit, Hacker
+News, and anything a model merely remembers.
 
 ## Configuration
 
