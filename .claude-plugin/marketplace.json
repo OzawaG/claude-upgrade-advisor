@@ -1,0 +1,17 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "ozawag-plugins",
+  "description": "Marketplace hosting claude-upgrade-advisor",
+  "owner": {
+    "name": "OzawaG",
+    "url": "https://github.com/OzawaG"
+  },
+  "plugins": [
+    {
+      "name": "claude-upgrade-advisor",
+      "source": "./",
+      "description": "Notices when Claude Code or the Claude model lineup changes, reads the official docs, and reports what is new plus an audit of your project's harness and settings.",
+      "category": "productivity"
+    }
+  ]
+}

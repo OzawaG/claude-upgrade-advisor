@@ -1,0 +1,18 @@
+.DS_Store
+*.swp
+*.tmp
+*.tmp.*
+
+# Never commit anything credential-shaped. This plugin has no need for any of
+# these files; the entry exists so an accident cannot become a public leak.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.json
+
+# Local scratch space while developing
+/tmp/
+/scratch/
