@@ -97,6 +97,17 @@ Then run it once to establish a baseline:
 Until you do, the plugin has no record of when you last checked the docs, so it
 has nothing to compare against.
 
+### Updating
+
+```bash
+claude plugin marketplace update ozawag-plugins
+claude plugin update claude-upgrade-advisor@ozawag-plugins
+```
+
+The `update` command needs the qualified `plugin@marketplace` name. The bare name
+reports "Plugin not found". Restart Claude Code afterwards to load the new
+version.
+
 ### Try it without installing
 
 ```bash

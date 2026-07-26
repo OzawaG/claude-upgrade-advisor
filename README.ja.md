@@ -92,6 +92,16 @@ Claude Code の中からでも構いません。
 これをやるまでは「前回いつドキュメントを確認したか」の記録がないため、比較対象が
 ありません。
 
+### 更新する
+
+```bash
+claude plugin marketplace update ozawag-plugins
+claude plugin update claude-upgrade-advisor@ozawag-plugins
+```
+
+`update` には `plugin@marketplace` の形式が必要です。名前だけ渡すと
+「Plugin not found」になります。反映には Claude Code の再起動が必要です。
+
 ### インストールせずに試す
 
 ```bash
